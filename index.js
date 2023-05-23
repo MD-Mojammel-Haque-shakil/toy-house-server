@@ -59,6 +59,22 @@ async function run() {
     res.send(result)
 })
 
+app.put('/toys/:id', async(req, res)=>{
+  const id = req.params.id;
+  const filter = {_id: new ObjectId(id)}
+  const options = {upsert: true};
+  const updateToy = req.body;
+  const toy = {
+    $set: {
+      price: updateToy.price,
+      quantity: updateToy.quantity,
+      details: updateToy.details
+    }
+  }
+  const result = await toysCollection.updateOne(filter, toy, options);
+  res.send(result)
+}) 
+
     app.get('/toys/:id', async(req, res)=>{
     const id = req.params.id;
     const queary = {_id: new ObjectId(id)}
@@ -66,6 +82,9 @@ async function run() {
     res.send(result);
     
    }) 
+
+  
+  
 
  //send data mongodb via post 
     app.post('/toysinfo', async(req, res)=>{
