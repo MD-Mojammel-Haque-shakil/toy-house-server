@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const app = express();
-const port = process.env.port || 5000;
+const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 
@@ -20,13 +20,21 @@ const client = new MongoClient(uri, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
+  useNewUrlParser:true,
+  useUnifiedTopology:true,
+  maxPoolSize:10,
 });
 
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+  //   await client.connect((err) => {
+  //     if(err){
+  //         console.log(err);
+  //         return
+  //     }
+  // });
     
     
     const toysCollection = client.db('toyUser').collection('allToys');
